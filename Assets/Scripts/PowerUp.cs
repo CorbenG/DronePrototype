@@ -19,17 +19,19 @@ public class PowerUp : MonoBehaviour
     {
         if (Mathf.Sqrt(Mathf.Pow(transform.position.x - GameController.getPlayer().transform.position.x, 2) + Mathf.Pow(transform.position.y - GameController.getPlayer().transform.position.y, 2)) < 1)
         {
+            source.PlayOneShot(upSound);
             GameController.GetPowerUp();
             Destroy(this.gameObject);
         }
     }
-
+    /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.name == "Player")
         {
             GameController.GetPowerUp();
-            source.PlayOneShot(upSound, 100);
+            source.PlayOneShot(upSound);
         }
     }
+    */
 }

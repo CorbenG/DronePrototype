@@ -30,9 +30,15 @@ public class EnemyController : MonoBehaviour
 
         transform.position = new Vector3(transform.position.x + ((hp/100) * speed * Time.deltaTime), transform.position.y, transform.position.z);
 
-        if((transform.position.x - cam.transform.position.x) > 25)
+        if((transform.position.x - cam.transform.position.x) > 35)
         {
-            transform.position = new Vector3(cam.transform.position.x - resetDistance, transform.position.y, transform.position.z);
+            transform.position = new Vector3(cam.transform.position.x - resetDistance, Random.Range(-4, 4), transform.position.z);
+            hp = 100;
+        }
+        if ((transform.position.x - cam.transform.position.x) < -35)
+        {
+            transform.position = new Vector3(cam.transform.position.x + resetDistance, Random.Range(-4, 4), transform.position.z);
+            hp = 100;
         }
 
     }

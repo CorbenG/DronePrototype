@@ -12,10 +12,12 @@ public class GameController : MonoBehaviour
     public GameObject crosshair;
     public GameObject missile;
     public GameObject bullet;
+    public GameObject laser;
     private AudioSource source;
     public AudioClip fire;
+    public AudioClip zoom;
 
-    public static string powerUp;
+    public static string powerUp = "N/A";
     public float autoAimDist;
 
     private static bool canShoot;
@@ -39,6 +41,7 @@ public class GameController : MonoBehaviour
         }
 
         enemy.transform.GetChild(0).gameObject.SetActive(false);
+        player.transform.GetChild(0).gameObject.SetActive(false);
 
         if (powerUp == "Auto Aim")
         {
@@ -48,7 +51,8 @@ public class GameController : MonoBehaviour
                 enemy.transform.GetChild(0).gameObject.SetActive(true);
                 if (Input.GetMouseButton(0) && canShoot)
                 {
-                    Instantiate(missile, player.transform.position, player.transform.rotation);
+                    GameObject miss = Instantiate(missile, player.transform.position, player.transform.rotation);
+                    miss.GetComponent<Missile>().initSpeed = player.GetComponent<player_controller>().rb.velocity;
                     canShoot = false;
                     source.PlayOneShot(fire);
                     powerUp = "N/A";
@@ -58,7 +62,13 @@ public class GameController : MonoBehaviour
         }
         else if (powerUp == "Laser")
         {
-
+            player.transform.GetChild(0).gameObject.SetActive(true);
+            if (Input.GetMouseButton(0) && canShoot)
+            {
+                Instantiate(laser, player.transform);
+                canShoot = false;
+                powerUp = "N/A";
+            }
 
         }
         else if (powerUp == "Gun")
@@ -74,7 +84,7 @@ public class GameController : MonoBehaviour
             if (Input.GetMouseButton(0) && canShoot && ammo > 0 && bullDelay == 0)
             {
                 GameObject bull = Instantiate(bullet, player.transform.position, player.transform.rotation);
-                bull.GetComponent<Bullet>().initVel = player.GetComponent<player_controller>().speed;
+                bull.GetComponent<Bullet>().initVel = player.GetComponent<player_controller>().rb.velocity;
                 ammo--;
                 source.PlayOneShot(fire);
                 
@@ -89,7 +99,7 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetMouseButton(0) && canShoot)
             {
-                player.GetComponent<player_controller>().speed.x += 5;
+                player.GetComponent<player_controller>().speedBoost = 60;
                 canShoot = false;
                 powerUp = "N/A";
             }
@@ -103,32 +113,36 @@ public class GameController : MonoBehaviour
 
     public static void GetPowerUp()
     {
-        int value = Random.Range(0, 4);
-        Debug.Log(value);
-        if(value == 0)
+        if(powerUp == "N/A")
         {
-           powerUp =  "Laser";
-        }
-        else if (value == 1)
-        {
-            powerUp = "Gun";
-            ammo = 100;
-        }
-        else if (value == 2)
-        {
-            powerUp = "Auto Aim";
-        }
-        else if (value == 3)
-        {
-            powerUp = "Speed Boost";
-        }
-        else
-        {
-            powerUp = "N/A";
+            int value = Random.Range(0, 4);
+            Debug.Log(value);
+            if (value == 0)
+            {
+                powerUp = "Laser";
+            }
+            else if (value == 1)
+            {
+                powerUp = "Gun";
+                ammo = 100;
+            }
+            else if (value == 2)
+            {
+                powerUp = "Auto Aim";
+            }
+            else if (value == 3)
+            {
+                powerUp = "Speed Boost";
+            }
+            else
+            {
+                powerUp = "N/A";
+            }
+
+            canShoot = true;
+            //Set player can shoot power up to true
         }
 
-        canShoot = true;
-        //Set player can shoot power up to true
     }
 
     public static GameObject getEnemy()

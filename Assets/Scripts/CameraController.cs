@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 targetPosition = new Vector3(target.position.x, 0, transform.position.z);
+        Vector3 targetPosition = new Vector3(target.position.x + GameController.getPlayer().GetComponent<player_controller>().speed.x/6, 0, transform.position.z);
 
 
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, smoothTime);
