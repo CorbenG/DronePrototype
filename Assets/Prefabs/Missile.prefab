@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateAmount: 0
   RotateSpeedInDeg: 1
-  ForwardSpeed: 3
+  ForwardSpeed: 12
 --- !u!58 &992111307547373330
 CircleCollider2D:
   m_ObjectHideFlags: 0
