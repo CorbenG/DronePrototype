@@ -26,5 +26,6 @@ public class player_controller : MonoBehaviour
         
         transform.position += new Vector3(speed.x, speed.y, 0) * Time.deltaTime;
         transform.eulerAngles = new Vector3(0, 0, (h_thrust * -1.0f)/max_thrust*30);
+        GetComponent<AudioSource>().pitch = Mathf.Pow(1.1f, Mathf.Abs(h_thrust) * 0.01f + (v_thrust) * 0.01f);
     }
 }
