@@ -17,7 +17,11 @@ public class PowerUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Mathf.Sqrt(Mathf.Pow(transform.position.x - GameController.getPlayer().transform.position.x, 2) + Mathf.Pow(transform.position.y - GameController.getPlayer().transform.position.y, 2)) < 1)
+        {
+            GameController.GetPowerUp();
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

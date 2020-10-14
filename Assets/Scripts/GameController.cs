@@ -18,8 +18,9 @@ public class GameController : MonoBehaviour
     public static string powerUp;
     public float autoAimDist;
 
-    private bool canShoot;
-    float ammo;
+    private static bool canShoot;
+    public static float ammo;
+    private int bullDelay = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -62,11 +63,21 @@ public class GameController : MonoBehaviour
         }
         else if (powerUp == "Gun")
         {
-            if (Input.GetMouseButton(0) && canShoot && ammo > 0)
+            if(Input.GetMouseButton(0) && bullDelay >= 5)
             {
-                Instantiate(bullet, player.transform.position, player.transform.rotation);
+                bullDelay = 0;
+            }
+            else if(Input.GetMouseButton(0))
+            {
+                bullDelay++;
+            }
+            if (Input.GetMouseButton(0) && canShoot && ammo > 0 && bullDelay == 0)
+            {
+                GameObject bull = Instantiate(bullet, player.transform.position, player.transform.rotation);
+                bull.GetComponent<Bullet>().initVel = player.GetComponent<player_controller>().speed;
                 ammo--;
                 source.PlayOneShot(fire);
+                
             }
             if(ammo <= 0)
             {
@@ -76,7 +87,12 @@ public class GameController : MonoBehaviour
         }
         else if (powerUp == "Speed Boost")
         {
-
+            if (Input.GetMouseButton(0) && canShoot)
+            {
+                player.GetComponent<player_controller>().speed.x += 5;
+                canShoot = false;
+                powerUp = "N/A";
+            }
         }
         else if (powerUp == "N/A")
         {
@@ -88,6 +104,7 @@ public class GameController : MonoBehaviour
     public static void GetPowerUp()
     {
         int value = Random.Range(0, 4);
+        Debug.Log(value);
         if(value == 0)
         {
            powerUp =  "Laser";
@@ -95,6 +112,7 @@ public class GameController : MonoBehaviour
         else if (value == 1)
         {
             powerUp = "Gun";
+            ammo = 100;
         }
         else if (value == 2)
         {
@@ -109,12 +127,17 @@ public class GameController : MonoBehaviour
             powerUp = "N/A";
         }
 
-        
+        canShoot = true;
         //Set player can shoot power up to true
     }
 
     public static GameObject getEnemy()
     {
         return GameObject.Find("Enemy");
+    }
+
+    public static GameObject getPlayer()
+    {
+        return GameObject.Find("Player");
     }
 }
