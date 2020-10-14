@@ -25,6 +25,6 @@ public class player_controller : MonoBehaviour
         speed.x += h_thrust * Time.deltaTime;
         
         transform.position += new Vector3(speed.x, speed.y, 0) * Time.deltaTime;
-        transform.eulerAngles = new Vector3(0,0,(h_thrust*-0.3f));
+        transform.eulerAngles = new Vector3(0, 0, (h_thrust * -1.0f)/max_thrust*30);
     }
 }
