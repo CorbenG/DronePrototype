@@ -5,6 +5,9 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     private Collider2D col;
+
+    public AudioClip upSound;
+    public AudioSource source;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,7 @@ public class PowerUp : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             GameController.GetPowerUp();
+            source.PlayOneShot(upSound, 100);
         }
     }
 }

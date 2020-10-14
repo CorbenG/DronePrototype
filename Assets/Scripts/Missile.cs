@@ -35,7 +35,7 @@ public class Missile : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, rotateAmount));
         transform.position = new Vector3(transform.position.x + transform.up.x * ForwardSpeed * Time.deltaTime, transform.position.y + transform.up.y * ForwardSpeed * Time.deltaTime);
 
-        if (Mathf.Sqrt(Mathf.Pow(transform.position.x - GameController.getEnemy().transform.position.x, 2) + Mathf.Pow(transform.position.x - GameController.getEnemy().transform.position.y, 2)) < 1)
+        if (Mathf.Sqrt(Mathf.Pow(transform.position.x - GameController.getEnemy().transform.position.x, 2) + Mathf.Pow(transform.position.y - GameController.getEnemy().transform.position.y, 2)) < 1)
         {
             Destroy(this.gameObject);
             GameController.getEnemy().GetComponent<EnemyController>().hp -= 25; 
